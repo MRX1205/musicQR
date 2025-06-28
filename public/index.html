@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上传音乐生成播放列表</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f4f4f4; margin: 0; }
+        .container { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; max-width: 500px; width: 90%; }
+        h1 { color: #333; }
+        form > div { margin-bottom: 1rem; }
+        input[type="file"] { width: 100%; border: 1px solid #ddd; padding: 8px; border-radius: 4px; box-sizing: border-box; }
+        button { background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-size: 1rem; cursor: pointer; transition: background-color 0.3s; }
+        button:hover { background-color: #0056b3; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        .result { margin-top: 2rem; }
+        #qr-code-container img { max-width: 250px; border: 1px solid #ddd; }
+        #status { font-weight: bold; margin-top: 1rem; word-wrap: break-word; }
+        #player-link { word-wrap: break-word; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>音乐播放列表二维码</h1>
+    <form id="upload-form">
+        <div>
+            <label for="files">选择 MP3 和 LRC 文件:</label><br>
+            <input type="file" id="files" name="files" accept=".mp3,.lrc" required multiple>
+        </div>
+        <p style="font-size: 0.8em; color: #666;">提示：请确保MP3和对应的LRC文件名相同！按住 Ctrl 或 Shift 可选择多个文件。</p>
+        <button type="submit" id="submit-btn">生成播放列表二维码</button>
+    </form>
+    <div class="result">
+        <div id="qr-code-container"></div>
+        <p id="status"></p>
+        <a id="player-link" href="#" target="_blank"></a>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById('upload-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const qrContainer = document.getElementById('qr-code-container');
+    const statusEl = document.getElementById('status');
+    const playerLinkEl = document.getElementById('player-link');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        submitBtn.disabled = true;
+        submitBtn.textContent = '上传中...';
+        statusEl.textContent = '';
+        qrContainer.innerHTML = '';
+        playerLinkEl.textContent = '';
+        playerLinkEl.href = '#';
+        statusEl.style.color = 'black';
+
+        const formData = new FormData();
+        const filesInput = document.getElementById('files');
+        if (filesInput.files.length === 0) {
+            statusEl.textContent = '错误: 请至少选择一个文件。';
+            statusEl.style.color = 'red';
+            submitBtn.disabled = false;
+            submitBtn.textContent = '生成播放列表二维码';
+            return;
+        }
+
+        for (let i = 0; i < filesInput.files.length; i++) {
+            formData.append('files', filesInput.files[i]);
+        }
+        
+        try {
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                const errData = await response.json();
+                throw new Error(errData.error || '上传失败，服务器错误。');
+            }
+
+            const result = await response.json();
+
+            if (result.success) {
+                const img = document.createElement('img');
+                img.src = result.qrCode;
+                qrContainer.appendChild(img);
+                statusEl.textContent = '生成成功！请用手机扫描二维码。';
+                playerLinkEl.href = result.playerUrl;
+                playerLinkEl.textContent = '或者点击此链接预览';
+            } else {
+                throw new Error(result.error || '未知错误');
+            }
+
+        } catch (error) {
+            statusEl.textContent = `错误: ${error.message}`;
+            statusEl.style.color = 'red';
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '生成播放列表二维码';
+        }
+    });
+</script>
+
+</body>
+</html>

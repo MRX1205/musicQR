@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>音乐播放列表</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div id="app" v-cloak>
+    <div class="playlist-view" v-if="view === 'playlist'">
+        <h1>播放列表</h1>
+        <ul v-if="playlist.length">
+            <li v-for="(song, index) in playlist" :key="index" @click="selectSong(song, index)">
+                <span class="song-title">{{ song.title }}</span>
+                <span class="play-icon">▶</span>
+            </li>
+        </ul>
+        <p v-else class="loading-text">{{ loadingText }}</p>
+    </div>
+
+    <div class="player-view" v-if="view === 'player' && currentSong">
+        <div class="header">
+            <button class="back-btn" @click="backToPlaylist">&lt; 返回列表</button>
+            <p class="track-title">{{ currentSong.title }}</p>
+        </div>
+        
+        <audio ref="audioPlayer" 
+               :src="encodedAudioUrl" 
+               controls 
+               autoplay
+               @timeupdate="onTimeUpdate"
+               @ended="playNext">
+        </audio>
+        <div class="lyrics-container" ref="lyricsContainer">
+            <p v-if="!lyrics.length" class="no-lyrics">暂无歌词或正在加载...</p>
+            <p v-for="(line, index) in lyrics"
+               :key="index"
+               :class="{ 'highlight': index === currentLineIndex }"
+               :ref="el => { if (el) lyricLines[index] = el }">
+                {{ line.text }}
+            </p>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="/js/player.js"></script>
+
+</body>
+</html>
