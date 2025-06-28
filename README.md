@@ -16,22 +16,7 @@
   - **完全自托管**: 所有文件和数据都存储在你自己的服务器上，保护隐私。
   - **UTF-8 文件名支持**: 完美处理包含中文、日文等非英文字符的文件名。
 
-## 📸 应用截图
 
-\<table\>
-\<tr\>
-\<td align="center"\>\<strong\>上传页面\</strong\>\</td\>
-\<td align="center"\>\<strong\>播放列表页\</strong\>\</td\>
-\<td align="center"\>\<strong\>音乐播放页 (带歌词)\</strong\>\</td\>
-\</tr\>
-\<tr\>
-\<td\>\<img src="screenshots/upload-page.png" alt="上传页面" width="250"/\>\</td\>
-\<td\>\<img src="screenshots/playlist-page.png" alt="播放列表页" width="250"/\>\</td\>
-\<td\>\<img src="screenshots/player-page.png" alt="音乐播放页" width="250"/\>\</td\>
-\</tr\>
-\</table\>
-
-*(请将你的应用截图分别命名为 `upload-page.png`, `playlist-page.png`, `player-page.png` 并放入项目根目录下的 `screenshots` 文件夹中)*
 
 ## 🛠️ 技术栈
 
