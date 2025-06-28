@@ -23,40 +23,7 @@
 
 这是一款轻量级的 Web 应用，允许用户上传多个 MP3 音乐文件和对应的 LRC 歌词文件，并即时生成一个指向在线播放列表的二维码。任何人通过手机扫描该二维码，即可在无需安装任何App的情况下，访问一个移动端优化的播放页面，享受带歌词同步的音乐播放体验。
 
-## ✨ 在线演示
 
-你可以通过以下链接访问已经部署好的版本：
-
-**[https://music.lyhlz.cn/](https://music.lyhlz.cn/)**
-
-*(注意：这是一个由项目创建者部署的示例，请勿上传私人文件。)*
-
-## 🚀 主要功能
-
-- **多文件批量上传**: 支持一次性选择并上传多个 MP3 和 LRC 文件。
-- **智能匹配**: 自动根据文件名匹配对应的歌曲和歌词文件。
-- **动态生成二维码**: 上传成功后，即时生成可供手机扫描的二维码。
-- **移动端优先**: 播放页面为移动设备特别优化，提供良好的用户体验。
-- **实时歌词同步**: 播放音乐时，能够高亮显示当前歌词并自动滚动。
-- **完全自托管**: 所有文件和数据都存储在你自己的服务器上，保护隐私。
-- **UTF-8 文件名支持**: 完美处理包含中文、日文等非英文字符的文件名。
-
-## 📸 应用截图
-
-<table>
-  <tr>
-    <td align="center"><strong>上传页面</strong></td>
-    <td align="center"><strong>播放列表页</strong></td>
-    <td align="center"><strong>音乐播放页 (带歌词)</strong></td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/upload-page.png" alt="上传页面" width="250"/></td>
-    <td><img src="screenshots/playlist-page.png" alt="播放列表页" width="250"/></td>
-    <td><img src="screenshots/player-page.png" alt="音乐播放页" width="250"/></td>
-  </tr>
-</table>
-
-*(请将你的应用截图分别命名为 `upload-page.png`, `playlist-page.png`, `player-page.png` 并放入项目根目录下的 `screenshots` 文件夹中)*
 
 ## 🛠️ 技术栈
 
